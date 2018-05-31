@@ -2,6 +2,7 @@ import org.apache.jena.query.ResultSet;
 import virtuoso.jena.driver.*;
 import org.apache.jena.query.*;
 
+import static spark.Spark.get;
 
 public class queriesHelper{
 	

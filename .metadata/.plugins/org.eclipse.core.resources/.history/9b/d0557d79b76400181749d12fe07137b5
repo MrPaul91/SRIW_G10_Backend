@@ -1,0 +1,1 @@
+PREFIX ds:<https://www.datos.gov.co/resource/yigb-eqpm/> SELECT ?direccion ?sector ?nombreinstitucion WHERE { ?x ds:nombre_de_la_instituci_n ?nombreinstitucion . ?x ds:direcci_n ?direccion. ?x ds:sector ?sector }

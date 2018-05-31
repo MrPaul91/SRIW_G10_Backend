@@ -19,22 +19,53 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.sparql.core.DatasetImpl;
 import org.apache.jena.util.FileManager;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.commons.lang3.StringUtils;
+import com.google.gson.Gson;
+
+import static spark.Spark.get;
+import java.util.List;
+import java.util.ArrayList;
+import static spark.Spark.*;
+
 
 public class fillOntology {
 	
 	public static void main(String []args) throws Exception{
 		
+		port(8008);
+		
 		VirtGraph set = new VirtGraph("company","jdbc:virtuoso://50.18.123.50:1111","dba","dba");
 		
-		FileReader file = new FileReader("ConsultaCompany.txt");
+		
+		
+		/*FileReader file = new FileReader("ConsultaCompany.txt");
+		
 		
 		
 		BufferedReader reader = new BufferedReader(file);
-	    String s = reader.readLine();
-	    ResultSet results = queriesHelper.runQuery(s, "company");
+	    String s = reader.readLine();*/
+	    
+	    String query = "PREFIX ds:<https://www.datos.gov.co/resource/yigb-eqpm/> "
+	    		+ "SELECT ?direccion ?sector ?nombreinstitucion WHERE "
+	    		+ "{ ?x ds:nombre_de_la_instituci_n ?nombreinstitucion . "
+	    		+ "?x ds:direcci_n ?direccion. ?x ds:sector ?sector }";
+	    		
+	    ResultSet results = queriesHelper.runQuery(query, "company");
+	    
+	    List<String> list = new ArrayList<String>();
+	   
+	   while (results.hasNext()){
+		   QuerySolution soln = results.nextSolution();
+		   
+		  //System.out.println(StringUtils.stripAccents(soln.getLiteral("direccion").getString()));
+		   
+		   list.add(StringUtils.stripAccents(soln.getLiteral("direccion").getString()));
+		   
+		   
+	   }
 	    
 	   
-	    Model model = ModelFactory.createDefaultModel();
+	    /*Model model = ModelFactory.createDefaultModel();
 	    InputStream fileOntology = FileManager.get().open("Ontology.owl");
 	    
 	    
@@ -49,9 +80,20 @@ public class fillOntology {
 	    ///Propiedades.
 	    Property companyName_property = model.createProperty(URIOntology+"companyName");
 	    Property address_property = model.createProperty(URIDbpedia+"address");
-	    Property sector_property = model.createProperty(URIOntology+"hasSector");
-     
-    
+	    Property sector_property = model.createProperty(URIOntology+"hasSector");*/
+        
+	   Gson gson = new Gson();
+
+
+	   get("/hello", (req, res)->"Hello, world");
+	   
+	   get("/lista", (req, res) -> {
+			res.type("application/json");
+			System.out.print("entro a pedir este mostro");
+			return list;
+		}, gson ::toJson);
+	   
+	   System.out.println("hola");
     
     }
 
