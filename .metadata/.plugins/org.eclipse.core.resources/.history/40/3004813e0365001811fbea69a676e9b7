@@ -52,21 +52,15 @@ public class fillOntology {
 	    		
 	    ResultSet results = queriesHelper.runQuery(query, "company");
 	    
-	    List<Company> list = new ArrayList<Company>();
+	    List<String> list = new ArrayList<String>();
 	   
 	   while (results.hasNext()){
 		   QuerySolution soln = results.nextSolution();
 		   
 		  //System.out.println(StringUtils.stripAccents(soln.getLiteral("direccion").getString()));
-		   Company c = new Company(StringUtils.stripAccents(soln.getLiteral("sector").getString()),StringUtils.stripAccents(soln.getLiteral("direccion").getString()) );
 		   
-		   System.out.println(c.toString());
-		  
-		   
-		   list.add(c);
-		   
-		   
-		   
+		   list.add(StringUtils.stripAccents(soln.getLiteral("direccion").getString()));
+		   list.add(StringUtils.stripAccents(soln.getLiteral("sector").getString()));
 		   
 		   
 	   }

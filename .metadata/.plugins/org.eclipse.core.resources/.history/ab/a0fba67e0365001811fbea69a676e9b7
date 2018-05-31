@@ -60,13 +60,8 @@ public class fillOntology {
 		  //System.out.println(StringUtils.stripAccents(soln.getLiteral("direccion").getString()));
 		   Company c = new Company(StringUtils.stripAccents(soln.getLiteral("sector").getString()),StringUtils.stripAccents(soln.getLiteral("direccion").getString()) );
 		   
-		   System.out.println(c.toString());
-		  
 		   
 		   list.add(c);
-		   
-		   
-		   
 		   
 		   
 	   }

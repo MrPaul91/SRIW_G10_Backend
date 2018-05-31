@@ -1,0 +1,25 @@
+
+public class Company {
+	
+	
+	
+	String sector;
+	String direccion;
+	
+	
+	public Company(String sector, String direccion){
+		
+		this.sector = sector;
+		this.direccion = direccion;
+		
+		
+	}
+	
+	
+	
+	public String toString(){
+		return this.sector + "   " + this.direccion;
+	}
+	
+
+}
