@@ -1,24 +1,9 @@
+import models.Company;
 import virtuoso.jena.driver.*;
 
 import org.apache.jena.query.*;
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.math.*;
-import org.apache.jena.datatypes.xsd.XSDDatatype;
-import org.apache.jena.ontology.Individual;
-import org.apache.jena.ontology.OntClass;
-import org.apache.jena.ontology.OntModel;
-import org.apache.jena.ontology.OntModelSpec;
-import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.sparql.core.DatasetImpl;
-import org.apache.jena.util.FileManager;
-import org.apache.jena.vocabulary.RDF;
 import org.apache.commons.lang3.StringUtils;
 import com.google.gson.Gson;
 
@@ -83,7 +68,7 @@ public class fillOntology {
 	    String URIDbpedia= "http://dbpedia.org/ontology/";	 
 	        
 	    ///Obtener la clase.
-	    Resource classCompany = model.createResource(URIDbpedia+"Company");
+	    Resource classCompany = model.createResource(URIDbpedia+"models.Company");
 	    ///Propiedades.
 	    Property companyName_property = model.createProperty(URIOntology+"companyName");
 	    Property address_property = model.createProperty(URIDbpedia+"address");
