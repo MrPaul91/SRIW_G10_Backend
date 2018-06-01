@@ -1,4 +1,8 @@
 import models.Company;
+import org.apache.jena.datatypes.RDFDatatype;
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.NodeFactory;
+import org.apache.jena.graph.Triple;
 import virtuoso.jena.driver.*;
 
 import org.apache.jena.query.*;
@@ -10,6 +14,12 @@ import com.google.gson.Gson;
 import static spark.Spark.get;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.TreeMap;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import static spark.Spark.*;
 
 
@@ -113,6 +123,82 @@ public class fillOntology {
 	   	if(resultsLogin.hasNext()) return "true";
 	   	return "id " + request.params(":id")+" or pass "+request.params(":pass") + " are incorrects.";
 	   });
+
+	   post("/insertjobPos", (request, response) -> {
+		   JSONParser parser = new JSONParser();
+		   Object obj = parser.parse("[" + request.body() + "]");
+		   JSONArray array = (JSONArray) obj;
+		   JSONObject obj2 = (JSONObject) array.get(0);
+
+			String companyId = (String)obj2.get("companyId");
+			String jobPosition = (String)obj2.get("jobPosition");
+			String jobName = (String)obj2.get("jobName");
+			String description = (String)obj2.get("description");
+
+			String query1 = "PREFIX ds:<http://www.entrega1/ontologies/> \n" +
+					"PREFIX dbo:<http://dbpedia.org/ontology/>\n" +
+					"SELECT ?jobPos \n" +
+					"WHERE{\n" +
+						"<" + jobPosition + "> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ds:jobPosition" +
+					"}";
+			System.out.println(query1);
+			ResultSet resultSet = queriesHelper.runQuery(query1, "companies");
+
+			if(resultSet.hasNext()) return "jobPosition "+ jobPosition +" already exist, select anoter name";
+
+		   String query2 = "PREFIX ds:<http://www.entrega1/ontologies/> \n" +
+				   "PREFIX dbo:<http://dbpedia.org/ontology/>\n" +
+				   "SELECT ?company \n" +
+				   "WHERE{\n" +
+				   "?company ds:companyId \"" + companyId + "\"\n" +
+				   "}";
+
+		   resultSet = queriesHelper.runQuery(query2, "companies");
+		   if(!resultSet.hasNext()) return "companyId does not exist";
+		   //QuerySolution vcompany = resultSet.nextSolution();
+		   String company = resultSet.nextSolution().getResource("company").getURI();
+
+		   VirtGraph set = new VirtGraph("companies","jdbc:virtuoso://50.18.123.50:1111","dba","dba");
+
+		   Node vjobPosition = NodeFactory.createURI(jobPosition);
+		   Node vType = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+		   Node vjobPosType = NodeFactory.createURI("http://www.entrega1/ontologies/jobPosition");
+		   Node vjobName = NodeFactory.createURI("http://www.entrega1/ontologies/jobName");
+		   Node vjobDescrip = NodeFactory.createURI("http://purl.org/dc/terms/description");
+		   Node vcompanyHasJob = NodeFactory.createURI("http://www.entrega1/ontologies/hasJobPosition");
+
+		   RDFDatatype nultype = null;
+			set.add(new Triple(vjobPosition,vType,vjobPosType));
+			set.add(new Triple(vjobPosition,vjobName,NodeFactory.createLiteral(jobName,nultype)));
+			set.add(new Triple(vjobPosition,vjobDescrip,NodeFactory.createLiteral(description,nultype)));
+			set.add(new Triple(NodeFactory.createURI(company),vcompanyHasJob,vjobPosition));
+
+			return true;
+	   });
+
+	   get("/recommendation/:companyId/:jobPos", (request, response) -> {
+	   		String query1 = "PREFIX ds:<http://www.entrega1/ontologies/> \n" +
+			"PREFIX dbo:<http://dbpedia.org/ontology/>\n" +
+			"SELECT DISTINCT ?taskItem ?quality\n" +
+					"WHERE {\n" +
+					request.params(":jobPos") + " ds:needsCompetence + ?skill .\n" +
+					"?skill ds:hasTask ?task .\n"+
+					"?task ds:taskItem ?taskItem .\n" +
+					"?task ds:qualityGrade ?quality \n" +
+					"}";
+	   		ResultSet resultSet = queriesHelper.runQuery(query1,"companies");
+
+	   		TreeMap<String, Integer> TaskList = new TreeMap<>();
+	   		while(resultSet.hasNext()){
+	   			QuerySolution task = resultSet.nextSolution();
+	   			String taskItem = task.getLiteral("taskItem").getString();
+	   			Integer quality = task.getLiteral("quality").getInt();
+	   			if(!TaskList.containsKey(taskItem) || TaskList.get(taskItem)<quality) TaskList.put(taskItem,quality);
+			}
+			//Por terminar
+
+	   		return false;
+	   }); //Sin terminar
 
 	   System.out.println("hola");
     
