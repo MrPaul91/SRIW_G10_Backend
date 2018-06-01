@@ -280,6 +280,16 @@ public class fillOntology {
        });
 
 	   get("/recommendation/:companyId/:jobPos", (request, response) -> {
+	       class personTree{
+	           String id, name;
+	           TreeMap<String, Integer> taskList;
+	           personTree(String id, String name){
+	               this.id = id;
+	               this.name = name;
+	               taskList = new TreeMap<>();
+               }
+           }
+
 	   		String query1 = "PREFIX ds:<http://www.entrega1/ontologies/> \n" +
 			"PREFIX dbo:<http://dbpedia.org/ontology/>\n" +
 			"SELECT DISTINCT ?taskItem ?quality\n" +
@@ -291,11 +301,11 @@ public class fillOntology {
 					"}";
 	   		ResultSet resultSet = queriesHelper.runQuery(query1,"companies");
 
-	   		TreeMap<String, Integer> TaskList = new TreeMap<>();
+	   		TreeMap<String, Float> TaskList = new TreeMap<>();
 	   		while(resultSet.hasNext()){
 	   			QuerySolution task = resultSet.nextSolution();
 	   			String taskItem = task.getLiteral("taskItem").getString();
-	   			Integer quality = task.getLiteral("quality").getInt();
+	   			float quality = task.getLiteral("quality").getFloat();
 	   			if(!TaskList.containsKey(taskItem) || TaskList.get(taskItem)<quality) TaskList.put(taskItem,quality);
 			}
 
@@ -305,15 +315,89 @@ public class fillOntology {
            }
            /**/
 
-	   		return false;
-	   }); //Sin terminar
+			String query2 = "PREFIX vocab: <http://localhost:2020/resource/vocab/>\n" +
+                    "SELECT DISTINCT ?id ?name ?taskItem ?quality WHERE {\n" +
+                    "service<http://50.18.123.50:2020/sparql>{\n" +
+                    "  ?p vocab:person_personId ?id .\n" +
+                    "  ?p vocab:person_birthName ?name .\n" +
+                    "  ?ps vocab:hasskill_personId ?id .\n" +
+                    "  ?ps vocab:hasskill_skillId ?skill .\n" +
+                    "  ?st vocab:hastask_skillId ?skill .\n" +
+                    "  ?st vocab:hastask_taskId ?ti .\n" +
+                    "  ?t vocab:task_id ?ti .\n" +
+                    "  ?t vocab:task_taskItem ?taskItem .\n" +
+                    "  ?t vocab:task_qualityGrade ?quality \n" +
+                    "}}";
+			resultSet = executeQuery(query2);
+
+			TreeMap<String,personTree> personList = new TreeMap<>();
+
+			while(resultSet.hasNext()){
+			    QuerySolution sol = resultSet.nextSolution();
+			    String id = sol.getLiteral("id").getString();
+			    String name = sol.getLiteral("name").getString();
+                String taskItem = sol.getLiteral("taskItem").getString();
+                int quality = sol.getLiteral("quality").getInt();
+			    if(!personList.containsKey(id)){
+			        personList.put(id,new personTree(id,sol.getLiteral("name").getString()));
+                }
+
+                if(!personList.get(id).taskList.containsKey(taskItem) || personList.get(id).taskList.get(taskItem) < quality){
+                    personList.get(id).taskList.put(taskItem,quality);
+                }
+            }
+
+            ArrayList<String> toRemove = new ArrayList<>();
+           for(Map.Entry<String, Float> entry : TaskList.entrySet()){
+               for(Map.Entry<String, personTree> entry2 : personList.entrySet()){
+                   if(!entry2.getValue().taskList.containsKey(entry.getKey())){
+                       toRemove.add(entry2.getKey());
+                   }
+               }
+           }
+
+           for(String s : toRemove){
+               personList.remove(s);
+           }
+
+           for(Map.Entry<String, personTree> entry2 : personList.entrySet()){
+               toRemove = new ArrayList<>();
+               for(Map.Entry<String,Integer> entry3 : entry2.getValue().taskList.entrySet()){
+                   if(!TaskList.containsKey(entry3.getKey())) {
+                       toRemove.add(entry3.getKey());
+                   }
+               }
+               for(String s : toRemove){
+                   entry2.getValue().taskList.remove(s);
+               }
+           }
+
+           ArrayList<Person> personArrayList = new ArrayList<>();
+           for(Map.Entry<String, personTree> entry2 : personList.entrySet()){
+               ArrayList<Task> t = new ArrayList<>();
+               for(Map.Entry<String, Integer> entry3 : entry2.getValue().taskList.entrySet()){
+                   t.add(new Task(entry3.getValue(),entry3.getKey()));
+               }
+               Person p = new Person(t.toArray(new Task[0]), entry2.getValue().name, entry2.getKey());
+               personArrayList.add(p);
+           }
+
+           ArrayList<Task> task = new ArrayList<>();
+           for(Map.Entry<String,Float> entry : TaskList.entrySet()){
+               task.add(new Task(entry.getValue(),entry.getKey()));
+           }
+
+           Person scores[] = pearsonScore(personArrayList.toArray(new Person[0]),task.toArray(new Task[0]));
+
+	   		return scores;
+	   }, gson ::toJson);
 
 	   System.out.println("escuchando en puerto 8008");
     
     }
 
     //Para cada persona actualizo la distancia.
-    public Person[] pearsonScore(
+    public static Person[] pearsonScore(
             Person p[],
             Task y[]
     ) {
@@ -335,7 +419,8 @@ public class fillOntology {
         for (int i = 0; i < y.length; i++) {
             SumatoriaY2 = Math.pow(y[i].calificacion, 2) + SumatoriaY2;
         }
-
+        //System.out.println("Suma Y: "+SumatoriaY);
+        //System.out.println("Suma Y2: "+SumatoriaY2);
 
         for (int i = 0; i < p.length; i++) {
 
@@ -362,22 +447,30 @@ public class fillOntology {
             //Sumatoria Xi*Y.
             for (int j = 0; j < p[i].tasks.length; j++) {
 
-                System.out.println(p[i].tasks[j].calificacion + " con " + y[j].calificacion);
+                //System.out.println(p[i].tasks[j].calificacion + " con " + y[j].calificacion);
 
                 SumatoriaXiPorYi = SumatoriaXiPorYi + (p[i].tasks[j].calificacion*y[j].calificacion);
             }
 
+            /*
+            System.out.println("Suma Xi: "+SumatoriaXi);
+            System.out.println("Suma XY: "+SumatoriaXiPorYi);
+            System.out.println("Suma X2: "+SumatoriaXi2);
+            */
+
             double num = SumatoriaXiPorYi - ((SumatoriaXi)*(SumatoriaY)/N);
-
+            //System.out.println(num);
             double denParte1 = Math.sqrt(SumatoriaXi2-(Math.pow(SumatoriaXi,2)/N));
-
+            //System.out.println(denParte1);
             double denParte2 = Math.sqrt(SumatoriaY2-(Math.pow(SumatoriaY,2)/N));
-
+            //System.out.println(denParte2);
             double den = denParte1*denParte2;
 
             distancia = num/den;
 
-            p[i].d = distancia;
+            //System.out.println(distancia);
+
+            p[i].d = (float)(Double.isNaN(distancia) ? 0 : distancia) ;
 
         }
 

@@ -2,25 +2,26 @@ package models;
 
 public class Person {
 
+    public String id;
     public String name;
     public Task tasks[];
 
     //
 
-    public double d; //Distancia respecto a la persona deseada.
+    public float d; //Distancia respecto a la persona deseada.
 
-    public Person(Task[] t, String n){
-
+    public Person(Task[] t, String n, String id){
+        this.id = id;
         this.tasks = t;
         this.name = n;
     }
 
-    public Person(Double distancia){
+    public Person(float distancia){
 
         this.d = distancia;
     }
 
-    public void setD(double dis){
+    public void setD(float dis){
         this.d = dis;
     }
 

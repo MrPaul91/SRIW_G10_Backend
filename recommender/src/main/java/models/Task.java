@@ -4,14 +4,14 @@ public class Task {
 
 
     public String nombre;
-    public double calificacion;
+    public float calificacion;
 
     //Arreglo Task.
 
 
 
 
-    public Task(double c, String nom){
+    public Task(float c, String nom){
         this.calificacion = c;
         this.nombre = nom;
 
