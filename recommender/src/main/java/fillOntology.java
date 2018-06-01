@@ -72,15 +72,9 @@ public class fillOntology {
 		  //System.out.println(StringUtils.stripAccents(soln.getLiteral("direccion").getString()));
 		   Company c = new Company(StringUtils.stripAccents(soln.getLiteral("sector").getString()),StringUtils.stripAccents(soln.getLiteral("direccion").getString()) );
 		   
-		   System.out.println(c.toString());
-		  
-		   
+		   //System.out.println(c.toString());
+
 		   list.add(c);
-		   
-		   
-		   
-		   
-		   
 	   }
 	    
 	   
@@ -126,7 +120,7 @@ public class fillOntology {
 	   	return false;//"id " + request.params(":id")+" or pass "+request.params(":pass") + " are incorrects.";
 	   });
 
-	   post("/insertjobPos", (request, response) -> {
+	   post("/insertjobPosition", (request, response) -> {
 		   JSONParser parser = new JSONParser();
 		   Object obj = parser.parse("[" + request.body() + "]");
 		   JSONArray array = (JSONArray) obj;
@@ -178,10 +172,15 @@ public class fillOntology {
 			return true;
 	   });
 
-	   get("/insertNeededSkill/:jobPos/:name/:skill", (request, response) -> {
-            String jobPosition = request.params(":jobPos");
-            String nameOfSkill = request.params(":name");
-            String skill = request.params(":skill");
+	   post("/insertNeededSkill", (request, response) -> {
+           JSONParser parser = new JSONParser();
+           Object obj = parser.parse("[" + request.body() + "]");
+           JSONArray array = (JSONArray) obj;
+           JSONObject obj2 = (JSONObject) array.get(0);
+
+            String jobPosition = (String)obj2.get("jobPos");
+            String nameOfSkill = (String)obj2.get("name");
+            String skill = (String)obj2.get("skill");
 
            String query1 = "PREFIX ds:<http://www.entrega1/ontologies/> \n" +
                    "PREFIX dbo:<http://dbpedia.org/ontology/>\n" +
@@ -222,8 +221,59 @@ public class fillOntology {
 	       return true;
        });
 
-	   get("/insertTask/:taskItem/:quality/:skill", (request, response) -> {
-	       return false;
+	   post("/insertTask", (request, response) -> {
+           JSONParser parser = new JSONParser();
+           Object obj = parser.parse("[" + request.body() + "]");
+           JSONArray array = (JSONArray) obj;
+           JSONObject obj2 = (JSONObject) array.get(0);
+
+           String taskItem = (String)obj2.get("taskItem");
+           String qualityGrade = (String)obj2.get("quality");
+           String skill = (String)obj2.get("skill");
+           String task = (String)obj2.get("task");
+
+           String query1 = "PREFIX ds:<http://www.entrega1/ontologies/> \n" +
+                   "PREFIX dbo:<http://dbpedia.org/ontology/>\n" +
+                   "SELECT ?task \n" +
+                   "WHERE{" +
+                   "{ <" + task + "> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/resource/Task> }\n" +
+                   "UNION\n" +
+                   "{ <" + task + "> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ds:Task }\n" +
+                   "}";
+           ResultSet resultSet = queriesHelper.runQuery(query1, "companies");
+
+           if(resultSet.hasNext()) return "task already exist, select another name";
+
+           String query2 = "PREFIX ds:<http://www.entrega1/ontologies/> \n" +
+                   "PREFIX dbo:<http://dbpedia.org/ontology/>\n" +
+                   "SELECT ?skill \n" +
+                   "WHERE{" +
+                   "{ <" + skill + "> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/resource/Skill> }\n" +
+                   "UNION\n" +
+                   "{ <" + skill + "> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ds:Competence }\n" +
+                   "}";
+           resultSet = queriesHelper.runQuery(query2, "companies");
+
+           if(!resultSet.hasNext()) return "skill does not exist";
+
+           Node vSkill = NodeFactory.createURI(skill);
+           Node vTask = NodeFactory.createURI(task);
+           Node vType = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+           Node vTaskType = NodeFactory.createURI("http://dbpedia.org/resource/Task");
+           Node vTaskItem = NodeFactory.createURI("http://www.entrega1/ontologies/taskItem");
+           Node vhasTask = NodeFactory.createURI("http://www.entrega1/ontologies/hasTask");
+           Node vQualityGrade = NodeFactory.createURI("http://www.entrega1/ontologies/qualityGrade");
+
+           RDFDatatype nultype = null;
+           VirtGraph set = new VirtGraph("companies","jdbc:virtuoso://50.18.123.50:1111","dba","dba");
+
+           set.add(new Triple(vTask,vType,vTaskType));
+           set.add(new Triple(vTask,vTaskItem,NodeFactory.createLiteral(taskItem,nultype)));
+           set.add(new Triple(vTask,vQualityGrade,NodeFactory.createLiteral(qualityGrade,nultype)));
+           set.add(new Triple(vSkill,vhasTask,vTask));
+
+           set.close();
+	       return true;
        });
 
 	   get("/recommendation/:companyId/:jobPos", (request, response) -> {
@@ -250,7 +300,7 @@ public class fillOntology {
 	   		return false;
 	   }); //Sin terminar
 
-	   System.out.println("hola");
+	   System.out.println("escuchando en puerto 8008");
     
     }
 
