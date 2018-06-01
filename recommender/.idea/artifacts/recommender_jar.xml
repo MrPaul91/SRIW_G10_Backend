@@ -1,0 +1,98 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="recommender:jar">
+    <output-path>$PROJECT_DIR$/classes/artifacts/recommender_jar</output-path>
+    <root id="archive" name="recommender.jar">
+      <element id="module-output" name="recommender" />
+      <element id="library" level="module" name="jackson-core-2.9.0.jar" module-name="recommender" />
+      <element id="library" level="module" name="jena-tdb-3.7.0.jar" module-name="recommender" />
+      <element id="library" level="module" name="commons-codec-1.11.jar" module-name="recommender" />
+      <element id="library" level="module" name="jena-rdfconnection-3.7.0.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/jena/jena-arq/3.7.0/jena-arq-3.7.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar" path-in-jar="/" />
+      <element id="library" level="module" name="commons-cli-1.4.jar" module-name="recommender" />
+      <element id="library" level="module" name="jena-dboe-trans-data-3.7.0.jar" module-name="recommender" />
+      <element id="library" level="module" name="jackson-databind-2.9.0.jar" module-name="recommender" />
+      <element id="library" level="module" name="jena-dboe-transaction-3.7.0.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpclient/4.5.3/httpclient-4.5.3.jar" path-in-jar="/" />
+      <element id="library" level="module" name="collection-0.7.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/websocket/websocket-common/9.3.2.v20150730/websocket-common-9.3.2.v20150730.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/jetty-webapp/9.3.2.v20150730/jetty-webapp-9.3.2.v20150730.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/websocket/websocket-server/9.3.2.v20150730/websocket-server-9.3.2.v20150730.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/jena/jena-iri/3.7.0/jena-iri-3.7.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/xml-apis/xml-apis/1.4.01/xml-apis-1.4.01.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/jena/jena-tdb/3.7.0/jena-tdb-3.7.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-csv/1.5/commons-csv-1.5.jar" path-in-jar="/" />
+      <element id="library" level="module" name="virt_jena3.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/sparkjava/spark-core/2.3/spark-core-2.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/cglib/cglib-nodep/2.2.2/cglib-nodep-2.2.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpclient-cache/4.5.3/httpclient-cache-4.5.3.jar" path-in-jar="/" />
+      <element id="library" level="module" name="slf4j-log4j12-1.7.25.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/jena/jena-core/3.7.0/jena-core-3.7.0.jar" path-in-jar="/" />
+      <element id="library" level="module" name="jena-shaded-guava-3.7.0.jar" module-name="recommender" />
+      <element id="library" level="module" name="jena-core-3.7.0.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/morphia/morphia/1.2.0/morphia-1.2.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/websocket/websocket-servlet/9.3.2.v20150730/websocket-servlet-9.3.2.v20150730.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpcore/4.4.6/httpcore-4.4.6.jar" path-in-jar="/" />
+      <element id="library" level="module" name="jsonld-java-0.11.1.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/xerces/xercesImpl/2.11.0/xercesImpl-2.11.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/websocket/websocket-api/9.3.2.v20150730/websocket-api-9.3.2.v20150730.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/thoughtworks/proxytoys/proxytoys/1.0/proxytoys-1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/github/jsonld-java/jsonld-java/0.11.1/jsonld-java-0.11.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/main/resources/virt_jena3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/jetty-servlet/9.3.2.v20150730/jetty-servlet-9.3.2.v20150730.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.9.0/jackson-core-2.9.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/jena/jena-base/3.7.0/jena-base-3.7.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-simple/1.7.12/slf4j-simple-1.7.12.jar" path-in-jar="/" />
+      <element id="library" level="module" name="log4j-1.2.17.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/mongo-java-driver/3.3.0/mongo-java-driver-3.3.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/commons-codec/commons-codec/1.11/commons-codec-1.11.jar" path-in-jar="/" />
+      <element id="library" level="module" name="jena-tdb2-3.7.0.jar" module-name="recommender" />
+      <element id="library" level="module" name="commons-lang3-3.4.jar" module-name="recommender" />
+      <element id="library" level="module" name="jcl-over-slf4j-1.7.25.jar" module-name="recommender" />
+      <element id="library" level="module" name="commons-io-2.6.jar" module-name="recommender" />
+      <element id="library" level="module" name="jena-dboe-index-3.7.0.jar" module-name="recommender" />
+      <element id="library" level="module" name="jena-dboe-base-3.7.0.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.9.0/jackson-databind-2.9.0.jar" path-in-jar="/" />
+      <element id="library" level="module" name="xml-apis-1.4.01.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4.jar" path-in-jar="/" />
+      <element id="library" level="module" name="jena-cmds-3.7.0.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/jena/jena-dboe-transaction/3.7.0/jena-dboe-transaction-3.7.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/thrift/libthrift/0.10.0/libthrift-0.10.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.0/gson-2.8.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/jetty-security/9.3.2.v20150730/jetty-security-9.3.2.v20150730.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/googlecode/json-simple/json-simple/1.1/json-simple-1.1.jar" path-in-jar="/" />
+      <element id="library" level="module" name="libthrift-0.10.0.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/jetty-io/9.3.2.v20150730/jetty-io-9.3.2.v20150730.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/jena/jena-dboe-base/3.7.0/jena-dboe-base-3.7.0.jar" path-in-jar="/" />
+      <element id="library" level="module" name="jena-base-3.7.0.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/jetty-server/9.3.2.v20150730/jetty-server-9.3.2.v20150730.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/jcl-over-slf4j/1.7.25/jcl-over-slf4j-1.7.25.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/bson/2.13.3/bson-2.13.3.jar" path-in-jar="/" />
+      <element id="library" level="module" name="httpclient-4.5.3.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/github/andrewoma/dexx/collection/0.7/collection-0.7.jar" path-in-jar="/" />
+      <element id="library" level="module" name="virtjdbc4.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/commons-io/commons-io/2.5/commons-io-2.5.jar" path-in-jar="/" />
+      <element id="library" level="module" name="httpcore-4.4.6.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/commons-cli/commons-cli/1.4/commons-cli-1.4.jar" path-in-jar="/" />
+      <element id="library" level="module" name="httpclient-cache-4.5.3.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/main/resources/virtjdbc4-7.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/jetty-xml/9.3.2.v20150730/jetty-xml-9.3.2.v20150730.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/jena/jena-rdfconnection/3.7.0/jena-rdfconnection-3.7.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/websocket/websocket-client/9.3.2.v20150730/websocket-client-9.3.2.v20150730.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/jetty-http/9.3.2.v20150730/jetty-http-9.3.2.v20150730.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.9.0/jackson-annotations-2.9.0.jar" path-in-jar="/" />
+      <element id="library" level="module" name="jena-iri-3.7.0.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/jena/jena-shaded-guava/3.7.0/jena-shaded-guava-3.7.0.jar" path-in-jar="/" />
+      <element id="library" level="module" name="jackson-annotations-2.9.0.jar" module-name="recommender" />
+      <element id="library" level="module" name="jena-arq-3.7.0.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/jena/jena-dboe-index/3.7.0/jena-dboe-index-3.7.0.jar" path-in-jar="/" />
+      <element id="library" level="module" name="slf4j-api-1.7.25.jar" module-name="recommender" />
+      <element id="library" level="module" name="commons-csv-1.5.jar" module-name="recommender" />
+      <element id="library" level="module" name="xercesImpl-2.11.0.jar" module-name="recommender" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/jena/jena-dboe-trans-data/3.7.0/jena-dboe-trans-data-3.7.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/eclipse/jetty/jetty-util/9.3.2.v20150730/jetty-util-9.3.2.v20150730.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/jena/jena-tdb2/3.7.0/jena-tdb2-3.7.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

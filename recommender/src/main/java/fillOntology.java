@@ -111,7 +111,7 @@ public class fillOntology {
 	   get("/login/:id/:pass", (request, response) -> {
 	   	String loginQuery = "PREFIX ds:<http://www.entrega1/ontologies/> \n" +
 				"PREFIX dbo:<http://dbpedia.org/ontology/>\n" +
-				"SELECT DISTINCT ?id ?password ?\n" +
+				"SELECT DISTINCT ?id ?password \n" +
 				"WHERE { \n" +
 				"?x ds:companyId \"" + request.params(":id") + "\" .\n" +
 				"?x ds:companyPassword \"" + request.params(":pass") + "\"\n" +
