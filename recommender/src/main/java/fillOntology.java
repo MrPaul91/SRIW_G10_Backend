@@ -28,24 +28,27 @@ public class fillOntology {
 	public static void main(String []args) throws Exception{
 		
 		port(8008);
-		
-		//VirtGraph set = new VirtGraph("company","jdbc:virtuoso://50.18.123.50:1111","dba","dba");
-		
-		
-		
-		/*FileReader file = new FileReader("ConsultaCompany.txt");
-		
-		
-		
-		BufferedReader reader = new BufferedReader(file);
-	    String s = reader.readLine();*/
 
-		/**
-	    String query = "PREFIX ds:<https://www.datos.gov.co/resource/yigb-eqpm/> "
-	    		+ "SELECT ?direccion ?sector ?nombreinstitucion WHERE "
-	    		+ "{ ?x ds:nombre_de_la_instituci_n ?nombreinstitucion . "
-	    		+ "?x ds:direcci_n ?direccion. ?x ds:sector ?sector }";
-	    /**/
+        options("/*",
+                (request, response) -> {
+
+                    String accessControlRequestHeaders = request
+                            .headers("Access-Control-Request-Headers");
+                    if (accessControlRequestHeaders != null) {
+                        response.header("Access-Control-Allow-Headers",
+                                accessControlRequestHeaders);
+                    }
+
+                    String accessControlRequestMethod = request
+                            .headers("Access-Control-Request-Method");
+                    if (accessControlRequestMethod != null) {
+                        response.header("Access-Control-Allow-Methods",
+                                accessControlRequestMethod);
+                    }
+
+                    return "OK";
+
+                });
 
 		/**/
 		String query = "PREFIX ds:<http://www.entrega1/ontologies/> \n" +
@@ -100,7 +103,6 @@ public class fillOntology {
         
 	   Gson gson = new Gson();
 
-
 	   get("/hello", (req, res)->"Hello, world");
 	   
 	   get("/lista", (req, res) -> {
@@ -120,8 +122,8 @@ public class fillOntology {
 
 	   	ResultSet resultsLogin = queriesHelper.runQuery(loginQuery, "companies");
 
-	   	if(resultsLogin.hasNext()) return "true";
-	   	return "id " + request.params(":id")+" or pass "+request.params(":pass") + " are incorrects.";
+	   	if(resultsLogin.hasNext()) return true;
+	   	return false;//"id " + request.params(":id")+" or pass "+request.params(":pass") + " are incorrects.";
 	   });
 
 	   post("/insertjobPos", (request, response) -> {
@@ -141,7 +143,6 @@ public class fillOntology {
 					"WHERE{\n" +
 						"<" + jobPosition + "> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ds:jobPosition" +
 					"}";
-			System.out.println(query1);
 			ResultSet resultSet = queriesHelper.runQuery(query1, "companies");
 
 			if(resultSet.hasNext()) return "jobPosition "+ jobPosition +" already exist, select anoter name";
@@ -173,8 +174,57 @@ public class fillOntology {
 			set.add(new Triple(vjobPosition,vjobDescrip,NodeFactory.createLiteral(description,nultype)));
 			set.add(new Triple(NodeFactory.createURI(company),vcompanyHasJob,vjobPosition));
 
+			set.close();
 			return true;
 	   });
+
+	   get("/insertNeededSkill/:jobPos/:name/:skill", (request, response) -> {
+            String jobPosition = request.params(":jobPos");
+            String nameOfSkill = request.params(":name");
+            String skill = request.params(":skill");
+
+           String query1 = "PREFIX ds:<http://www.entrega1/ontologies/> \n" +
+                   "PREFIX dbo:<http://dbpedia.org/ontology/>\n" +
+                   "SELECT ?skill \n" +
+                   "WHERE{" +
+                   "{ <" + skill + "> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/resource/Skill> }\n" +
+                   "UNION\n" +
+                   "{ <" + skill + "> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ds:Competence }\n" +
+                   "}";
+           ResultSet resultSet = queriesHelper.runQuery(query1, "companies");
+
+           if(resultSet.hasNext()) return "skill already exist, select another name";
+
+           String query2 = "PREFIX ds:<http://www.entrega1/ontologies/> \n" +
+                   "PREFIX dbo:<http://dbpedia.org/ontology/>\n" +
+                   "SELECT ?jobPosition \n" +
+                   "WHERE" +
+                   "{ <" + jobPosition + "> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ds:jobPosition }";
+           resultSet = queriesHelper.runQuery(query2, "companies");
+
+           if(!resultSet.hasNext()) return "jobPosition does not exist";
+
+           Node vSkill = NodeFactory.createURI(skill);
+           Node vjobPosition = NodeFactory.createURI(jobPosition);
+           Node vType = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+           Node vskillType = NodeFactory.createURI("http://dbpedia.org/resource/Skill");
+           Node vnameOfSkill = NodeFactory.createURI("http://www.entrega1/ontologies/nameOfSkill");
+           Node vhasSkill = NodeFactory.createURI("http://www.entrega1/ontologies/hasSkill");
+
+           RDFDatatype nultype = null;
+           VirtGraph set = new VirtGraph("companies","jdbc:virtuoso://50.18.123.50:1111","dba","dba");
+
+           set.add(new Triple(vSkill,vType,vskillType));
+           set.add(new Triple(vSkill,vnameOfSkill,NodeFactory.createLiteral(nameOfSkill,nultype)));
+           set.add(new Triple(vjobPosition,vhasSkill,vSkill));
+
+           set.close();
+	       return true;
+       });
+
+	   get("/insertTask/:taskItem/:quality/:skill", (request, response) -> {
+	       return false;
+       });
 
 	   get("/recommendation/:companyId/:jobPos", (request, response) -> {
 	   		String query1 = "PREFIX ds:<http://www.entrega1/ontologies/> \n" +
