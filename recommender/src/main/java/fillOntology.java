@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import static spark.Spark.get;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.json.simple.JSONArray;
@@ -67,7 +68,7 @@ public class fillOntology {
 	    ResultSet results = queriesHelper.runQuery(query, "companies");
 
 	    List<Company> list = new ArrayList<Company>();
-	   
+
 	   while (results.hasNext()){
 		   QuerySolution soln = results.nextSolution();
 		   
@@ -110,7 +111,7 @@ public class fillOntology {
 	   get("/login/:id/:pass", (request, response) -> {
 	   	String loginQuery = "PREFIX ds:<http://www.entrega1/ontologies/> \n" +
 				"PREFIX dbo:<http://dbpedia.org/ontology/>\n" +
-				"SELECT DISTINCT ?id ?password\n" +
+				"SELECT DISTINCT ?id ?password ?\n" +
 				"WHERE { \n" +
 				"?x ds:companyId \"" + request.params(":id") + "\" .\n" +
 				"?x ds:companyPassword \"" + request.params(":pass") + "\"\n" +
@@ -210,14 +211,14 @@ public class fillOntology {
            Node vType = NodeFactory.createURI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
            Node vskillType = NodeFactory.createURI("http://dbpedia.org/resource/Skill");
            Node vnameOfSkill = NodeFactory.createURI("http://www.entrega1/ontologies/nameOfSkill");
-           Node vhasSkill = NodeFactory.createURI("http://www.entrega1/ontologies/hasSkill");
+           Node vNeedsCompetence = NodeFactory.createURI("http://www.entrega1/ontologies/needsCompetence");
 
            RDFDatatype nultype = null;
            VirtGraph set = new VirtGraph("companies","jdbc:virtuoso://50.18.123.50:1111","dba","dba");
 
            set.add(new Triple(vSkill,vType,vskillType));
            set.add(new Triple(vSkill,vnameOfSkill,NodeFactory.createLiteral(nameOfSkill,nultype)));
-           set.add(new Triple(vjobPosition,vhasSkill,vSkill));
+           set.add(new Triple(vjobPosition,vNeedsCompetence,vSkill));
 
            set.close();
 	       return true;
@@ -282,8 +283,8 @@ public class fillOntology {
 	   		String query1 = "PREFIX ds:<http://www.entrega1/ontologies/> \n" +
 			"PREFIX dbo:<http://dbpedia.org/ontology/>\n" +
 			"SELECT DISTINCT ?taskItem ?quality\n" +
-					"WHERE {\n" +
-					request.params(":jobPos") + " ds:needsCompetence + ?skill .\n" +
+					"WHERE " +
+                    "{ <" + request.params(":jobPos") + "> ds:needsCompetence ?skill .\n" +
 					"?skill ds:hasTask ?task .\n"+
 					"?task ds:taskItem ?taskItem .\n" +
 					"?task ds:qualityGrade ?quality \n" +
@@ -297,7 +298,12 @@ public class fillOntology {
 	   			Integer quality = task.getLiteral("quality").getInt();
 	   			if(!TaskList.containsKey(taskItem) || TaskList.get(taskItem)<quality) TaskList.put(taskItem,quality);
 			}
-			//Por terminar
+
+			/**
+			for(Map.Entry<String, Integer> entry : TaskList.entrySet()){
+	   		    System.out.println(entry.getKey()+": "+entry.getValue());
+           }
+           /**/
 
 	   		return false;
 	   }); //Sin terminar
