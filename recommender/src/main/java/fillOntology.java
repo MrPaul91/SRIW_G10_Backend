@@ -1,4 +1,6 @@
 import models.Company;
+import models.Person;
+import models.Task;
 import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
@@ -302,6 +304,80 @@ public class fillOntology {
 
 	   System.out.println("escuchando en puerto 8008");
     
+    }
+
+    //Para cada persona actualizo la distancia.
+    public Person[] pearsonScore(
+            Person p[],
+            Task y[]
+    ) {
+
+        double N = y.length;
+
+        double SumatoriaY = 0;
+
+        //Sumatoria Y.
+        for (int i = 0; i < y.length; i++) {
+            SumatoriaY = y[i].calificacion + SumatoriaY;
+        }
+
+
+
+        //Sumatoria Y^2.
+
+        double SumatoriaY2 = 0;
+        for (int i = 0; i < y.length; i++) {
+            SumatoriaY2 = Math.pow(y[i].calificacion, 2) + SumatoriaY2;
+        }
+
+
+        for (int i = 0; i < p.length; i++) {
+
+            //Tomo la primera persona y le actualizo su d.
+
+            double SumatoriaXi = 0;
+            double SumatoriaXiPorYi = 0;
+            double SumatoriaXi2 = 0;
+            double distancia = 0;
+
+            //Sumatoria Xi.
+            for (int j = 0; j < p[i].tasks.length; j++) {
+                SumatoriaXi = SumatoriaXi + p[i].tasks[j].calificacion;
+
+            }
+
+            //Sumatoria Xi^2
+
+            for (int j = 0; j < p[i].tasks.length; j++) {
+                SumatoriaXi2 = SumatoriaXi2 + Math.pow(p[i].tasks[j].calificacion,2);
+
+            }
+
+            //Sumatoria Xi*Y.
+            for (int j = 0; j < p[i].tasks.length; j++) {
+
+                System.out.println(p[i].tasks[j].calificacion + " con " + y[j].calificacion);
+
+                SumatoriaXiPorYi = SumatoriaXiPorYi + (p[i].tasks[j].calificacion*y[j].calificacion);
+            }
+
+            double num = SumatoriaXiPorYi - ((SumatoriaXi)*(SumatoriaY)/N);
+
+            double denParte1 = Math.sqrt(SumatoriaXi2-(Math.pow(SumatoriaXi,2)/N));
+
+            double denParte2 = Math.sqrt(SumatoriaY2-(Math.pow(SumatoriaY,2)/N));
+
+            double den = denParte1*denParte2;
+
+            distancia = num/den;
+
+            p[i].d = distancia;
+
+        }
+
+
+        return p;
+
     }
 
 

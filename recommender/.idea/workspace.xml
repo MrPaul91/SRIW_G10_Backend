@@ -24,16 +24,40 @@
       <file leaf-file-name="fillOntology.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/fillOntology.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="348">
-              <caret line="131" column="65" lean-forward="true" selection-start-line="131" selection-start-column="65" selection-end-line="131" selection-end-column="65" />
+            <state relative-caret-position="327">
+              <caret line="382" lean-forward="true" selection-start-line="382" selection-end-line="382" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="method#main#0;class#fillOntology#0" />
                 <element signature="e#813#1600#0" />
                 <element signature="e#3014#3132#0" />
                 <element signature="e#3290#3882#0" />
+                <element signature="e#3885#3933#0" />
                 <element signature="e#6638#7476#0" />
                 <element signature="e#7529#7584#0" />
-                <element signature="e#3623#3667#0" />
+                <element signature="method#pearsonScore#0;class#fillOntology#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Task.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/models/Task.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Person.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/models/Person.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+              <folding>
+                <element signature="e#344#345#0" expanded="true" />
+                <element signature="e#372#373#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -59,6 +83,13 @@
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>system.out</find>
@@ -70,6 +101,8 @@
         <option value="$PROJECT_DIR$/src/main/java/queriesHelper.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/fillOntology.java" />
+        <option value="$PROJECT_DIR$/src/main/java/models/Task.java" />
+        <option value="$PROJECT_DIR$/src/main/java/models/Person.java" />
       </list>
     </option>
   </component>
@@ -111,14 +144,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="recommender" type="b2602c69:ProjectViewProjectNode" />
-              <item name="recommender" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -227,12 +252,12 @@
       <window_info anchor="right" id="Capture Analysis" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32968536" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32968536" />
       <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" />
       <window_info id="Capture Tool" />
       <window_info id="Designer" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32968536" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -279,18 +304,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/Person.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+          <folding>
+            <element signature="e#344#345#0" expanded="true" />
+            <element signature="e#372#373#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/Task.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fillOntology.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="131" column="65" lean-forward="true" selection-start-line="131" selection-start-column="65" selection-end-line="131" selection-end-column="65" />
+        <state relative-caret-position="327">
+          <caret line="382" lean-forward="true" selection-start-line="382" selection-end-line="382" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#main#0;class#fillOntology#0" />
             <element signature="e#813#1600#0" />
             <element signature="e#3014#3132#0" />
             <element signature="e#3290#3882#0" />
+            <element signature="e#3885#3933#0" />
             <element signature="e#6638#7476#0" />
             <element signature="e#7529#7584#0" />
-            <element signature="e#3623#3667#0" />
+            <element signature="method#pearsonScore#0;class#fillOntology#0" />
           </folding>
         </state>
       </provider>
